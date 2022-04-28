@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Sprite Sorting and Camera Culling
 
 You can use the [editor on GitHub](https://github.com/Oga29/SSCC/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
