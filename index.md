@@ -31,26 +31,110 @@ Example:
 
 
 
-### Markdown
+### Example of Implementation
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
 ```markdown
-Syntax highlighted code block
+int tileCount;
+struct TileProperty
+{
+  int tileId;
+  Properties properties;
+} tileProperty[MAX_TILES_WITH_PROPERTIES];
+```
+Then, in the .cpp, read and store the variables. Something like this:
+```markdown
+set->tileCount = 0;
+pugi::xml_node actualNode = tileset_node.child("tile");
+while (actualNode.child("properties"))
+{
+  set->tileProperty[set->tileCount].tileId = actualNode.attribute("id").as_int();
+  LoadProperties(actualNode, set->tileProperty[set->tileCount].properties);
+  
+  actualNode = actualNode.next_sibling();
+  set->tileCount++;
+}
+```
 
-# Header 1
-## Header 2
-### Header 3
+### After that
+We need in the entity manager a function to draw entities and maps.
+So, for the moment, adapt how the map and the entities are drawed.
 
-- Bulleted
-- List
+When rendering each tile, detect if the tile is one with an attribute.
 
-1. Numbered
-2. List
+```markdown
+for (int t = 0; t < tileset->tileCount; t++)
+{
+  if (tileId - 1 == tileset->tileProperty[t].tileId) 
+  {}
+}
+```
 
-**Bold** and _Italic_ and `Code` text
+This class will store all the information about the generated assembles, that are tiles united to form like entities.
+It should have enough variables for the sorting and the render.
+This are the variables I used:
 
-[Link](url) and ![Image](src)
+```markdown
+class Assemble
+{
+public:
+
+  int tilesAssemble = 0;
+  struct TileInfo
+  {
+    iPoint tileMapPosition;
+    iPoint tileWorldPosition;
+    TileSet* tileset;
+    SDL_Rect rectangle;
+    
+  } tileInfo[MAX_TILES_ASSEMBLED];
+```
+
+
+To generate assembles we should check previous tiles in the X and Y axis.
+
+```markdown
+int tileIdPrevX = layer->Get(x - 1, y);
+int tileIdPrevY = layer->Get(x, y - 1);
+TileSet* tilesetPrevX = nullptr;
+TileSet* tilesetPrevY = nullptr;
+
+if (tileIdPrevX > 0)
+  tilesetPrevX = map->GetTilesetFromTileId(tileIdPrevX);
+if (tileIdPrevY > 0)
+  tilesetPrevY = map->GetTilesetFromTileId(tileIdPrevY);
+int propPrevX = -1;
+int propPrevY = -1;
+
+for (int t = 0; t < tileset->tileCount; t++)
+{
+  if (tileId - 1 == tileset->tileProperty[t].tileId)
+  {
+    if (tileIdPrevX > 0)
+      for (int tp = 0; tp < tileset->tileCount; tp++)
+        if (tileIdPrevX - 1 == tilesetPrevX->tileProperty[tp].tileId)
+        {
+        propPrevX = tilesetPrevX->tileProperty[tp].properties.GetProperty("detectAssamble", 0);
+        break;
+        }
+    if (tileIdPrevY > 0)
+      for (int tp = 0; tp < tileset->tileCount; tp++)
+        if (tileIdPrevY - 1 == tilesetPrevY->tileProperty[tp].tileId)
+        {
+        propPrevY = tilesetPrevY->tileProperty[tp].properties.GetProperty("detectAssamble", 0);
+        break;
+        }
+        
+     if (tileset->tileProperty[t].properties.GetProperty("detectAssamble", 0) == propPrevX) 
+     {}
+     else if (tileset->tileProperty[t].properties.GetProperty("detectAssamble", 0) == propPrevY) 
+     {}
+     else
+     {}
+     break;
+  }
+}
 ```
 
 For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
