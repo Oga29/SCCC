@@ -1,8 +1,35 @@
-## Sprite Sorting and Camera Culling
+# Sprite Sorting and Camera Culling
 
-You can use the [editor on GitHub](https://github.com/Oga29/SSCC/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+## What is this? 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+In general, sprite sorting is basically the order of your sprites to render in order to not overlap. 
+
+
+
+![Image](https://images.squarespace-cdn.com/content/v1/60e846ddc80b76633f04495a/1628097854897-GY1HFNL83P4DNI058W4R/problem_2.gif?format=750w)
+
+## Why is this important?
+To show logical perception for the player. If there are few sprites, it can be done manually. But if there are a dozen of sprites then it is better to use automatic sorting.
+
+![Image](https://github.com/boscobarberesbert/sprite-sorting-and-camera-culling/blob/master/docs/images/the_legend_of_zelda.gif?raw=true)
+
+## Z-Order
+Z-order is an ordering of overlapping two-dimensional objects by setting which one has higher order over the other
+
+
+Theory:
+
+
+![Image](https://github.com/boscobarberesbert/sprite-sorting-and-camera-culling/blob/master/docs/images/z-order.png?raw=true)
+
+Example: 
+
+![Image](https://user-images.githubusercontent.com/79082037/165656837-41463c03-7bda-4c4b-8671-c00a2037959f.png)
+![image](https://user-images.githubusercontent.com/79082037/165656889-99e8a01b-a427-449d-ae5e-700a980352d6.png)
+![image](https://user-images.githubusercontent.com/79082037/165656900-1d8175d1-8df9-4cae-acda-1262774d0e87.png)
+
+
+
 
 ### Markdown
 
