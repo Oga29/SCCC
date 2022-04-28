@@ -32,6 +32,15 @@ For more details see [Basic writing and formatting syntax](https://docs.github.c
 
 Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Oga29/SSCC/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
+### Documentation
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+References from Github Presentations:
+[sherzock's Research](https://sherzock.github.io/Sprite-Ordering-and-Camera-Culling/) 
+[boscobarberesbert's Research](https://boscodev.com/sprite-sorting-and-camera-culling/) 
+[christt105's Research](https://christt105.github.io/Sprite_Ordering_and_Camera_Culling_Personal_Research/) 
+[Ercanon's Research](https://ercanon.github.io/Sprite-Sorting-Camera-Culling/) 
+
+References from Other websites:
+
+[C++ Queue](http://www.cplusplus.com/reference/queue/priority_queue/)
+[Discussion of ordering objects](https://stackoverflow.com/questions/11002811/sorting-objects-by-y-value-before-rendering)
