@@ -1,0 +1,36 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(477,5): warning MSB8004: каталог Output заканчивается не косой чертой.  Этот экземпляр сборки добавит косую черту, поскольку она необходима для правильного определения каталога Output.
+  App.cpp
+  EntityManager.cpp
+C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\game\Source\EntityManager.cpp(140,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\game\Source\EntityManager.cpp(210,29): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\game\Source\EntityManager.cpp(232,29): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\game\Source\EntityManager.cpp(301,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\game\Source\EntityManager.cpp(340,22): warning C4018: <: несоответствие типов со знаком и без знака
+  Exterior.cpp
+C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\game\Source\Exterior.cpp(20,10): warning C4101: h: неиспользованная локальная переменная
+C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\game\Source\Exterior.cpp(20,7): warning C4101: w: неиспользованная локальная переменная
+  Player.cpp
+C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\game\Source\Player.cpp(91,47): warning C4244: -=: преобразование "float" в "TYPE", возможна потеря данных
+          with
+          [
+              TYPE=int
+          ]
+C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\game\Source\Player.cpp(96,51): warning C4244: +=: преобразование "float" в "TYPE", возможна потеря данных
+          with
+          [
+              TYPE=int
+          ]
+C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\game\Source\Player.cpp(102,47): warning C4244: -=: преобразование "float" в "TYPE", возможна потеря данных
+          with
+          [
+              TYPE=int
+          ]
+C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\game\Source\Player.cpp(107,51): warning C4244: +=: преобразование "float" в "TYPE", возможна потеря данных
+          with
+          [
+              TYPE=int
+          ]
+  SceneManager.cpp
+  Создание кода...
+  Game.vcxproj -> C:\Users\ASUS\Desktop\Dude\uni\pROJECT 2\sscc\solution\Build\Debug\Game.exe
+  Скопировано файлов:         1.
