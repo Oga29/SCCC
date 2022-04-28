@@ -70,7 +70,15 @@ What camera culling does is that reduces what we render only to the things we ca
 As we mentioned before, Camera Culling is a way to optimize the game, by using this technique we are going to be able to increase the performance of our game as we are going to be loading less sprites and entities each cycle.
 
 
-### Example of Implementation
+
+
+
+
+
+
+
+
+# Example of Implementation
 
 Code implementation that was taken as an example.
 
