@@ -40,10 +40,21 @@ This is the laziest way to solve the sorting sprites problem, but also the one t
 
 ## Dynamic Sorting
 
+### By Y - Position
+
+That consists in sorting entities depending on the position of an entity. It is only focused on the vertical position (Y). In order to make sense of depth, all entities and objects will be sorted by Y position, from the lower Y to the higher Y, from top of the window to down. Entities placed higher will be rendered before entities placed lower. 
 
 ![Image](https://user-images.githubusercontent.com/79082037/165656837-41463c03-7bda-4c4b-8671-c00a2037959f.png)
 ![image](https://user-images.githubusercontent.com/79082037/165656889-99e8a01b-a427-449d-ae5e-700a980352d6.png)
 ![image](https://user-images.githubusercontent.com/79082037/165656900-1d8175d1-8df9-4cae-acda-1262774d0e87.png)
+
+### By Collider
+
+It is based on putting colliders in different zones that on the one hand change the layer of the entity regarding the elements of the map, and on the other hand they activate or deactivate the colliders that define the path that players can take.
+
+![Image](https://github.com/boscobarberesbert/sprite-sorting-and-camera-culling/blob/master/docs/images/colliders_example_2.png?raw=true)
+![image](https://github.com/boscobarberesbert/sprite-sorting-and-camera-culling/blob/master/docs/images/colliders_example_3.png?raw=true)
+
 
 
 # Camera Culling
