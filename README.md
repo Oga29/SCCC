@@ -11,6 +11,8 @@ https://oga29.github.io/SSCC/
 Used Library:
 - XML
 - SDL
+
+
 References from Github Presentations:
 - [sherzock's Research](https://sherzock.github.io/Sprite-Ordering-and-Camera-Culling/) 
 - [boscobarberesbert's Research](https://boscodev.com/sprite-sorting-and-camera-culling/) 
