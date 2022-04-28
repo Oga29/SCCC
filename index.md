@@ -1,5 +1,8 @@
 # Sprite Sorting and Camera Culling
 
+
+# Sprite Sorting
+
 ## What is this? 
 
 In general, sprite sorting is basically the order of your sprites to render in order to not overlap. 
@@ -20,7 +23,7 @@ Z-order is an ordering of overlapping two-dimensional objects by setting which o
 Theory:
 
 
-![Image](https://github.com/boscobarberesbert/sprite-sorting-and-camera-culling/blob/master/docs/images/z-order.png?raw=true)
+![Image](https://media.discordapp.net/attachments/258661801749774336/969057785520209980/Untitled-1.png?width=567&height=567)
 
 Example: 
 
@@ -28,12 +31,22 @@ Example:
 ![image](https://user-images.githubusercontent.com/79082037/165656889-99e8a01b-a427-449d-ae5e-700a980352d6.png)
 ![image](https://user-images.githubusercontent.com/79082037/165656900-1d8175d1-8df9-4cae-acda-1262774d0e87.png)
 
+# Camera Culling
 
+## What is Camera Culling?
+
+Camera Culling is a technique used by game developers to optimize their games. Normally when we create a game for the first time we try to render everything in the level, map, arena, etc even though these there is stuff outside the camera, and that the player is not able to see.
+
+What camera culling does is that reduces what we render only to the things we can see in the camera, and the stuff that it’s not visible for the user doesn't get rendered.
+
+## Why is this important 
+
+As we mentioned before, Camera Culling is a way to optimize the game, by using this technique we are going to be able to increase the performance of our game as we are going to be loading less sprites and entities each cycle.
 
 
 ### Example of Implementation
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Code implementation that was taken as an example.
 
 ```markdown
 int tileCount;
@@ -137,12 +150,196 @@ for (int t = 0; t < tileset->tileCount; t++)
 }
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
-### Jekyll Themes
+Store information about the assembles that are going to be created. If the actual tile and the previous have the same attribute, the actual tile will count as the assemble of the previous tile. If not, it will generate a new assemble.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Oga29/SSCC/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```markdown
+if (tileset->tileProperty[t].properties.GetProperty("detectAssamble", 0) == propPrevX)
+{
+    for (int a = 0; a < assembledList.Count(); a++)
+    {
+        bool done = false;
+        for (int i = 0; i < assembledList.At(a)->data->tilesAssemble; i++)
+	{
+	    if (assembledList.At(a)->data->tileInfo[i].tileMapPosition.x == x - 1 && 
+	        assembledList.At(a)->data->tileInfo[i].tileMapPosition.y == y)
+	    {
+		assembledList.At(a)->data->tileInfo[assembledList.At(a)->data->tilesAssemble].tileMapPosition = { x, y };
+		assembledList.At(a)->data->tileInfo[assembledList.At(a)->data->tilesAssemble].tileWorldPosition = pos;
+		assembledList.At(a)->data->tileInfo[assembledList.At(a)->data->tilesAssemble].rectangle = rec;
+		assembledList.At(a)->data->tileInfo[assembledList.At(a)->data->tilesAssemble].tileset = tileset;
+		assembledList.At(a)->data->tilesAssemble++;
+		done = true;
+		break;
+	    }
+	}
+	if (done) break;
+    }
+}
+else if (tileset->tileProperty[t].properties.GetProperty("detectAssamble", 0) == propPrevY)
+{
+    for (int a = 0; a < assembledList.Count(); a++)
+    {
+        bool done = false;
+	for (int i = 0; i < assembledList.At(a)->data->tilesAssemble; i++)
+	{
+	    if (assembledList.At(a)->data->tileInfo[i].tileMapPosition.x == x && 
+	        assembledList.At(a)->data->tileInfo[i].tileMapPosition.y == y - 1)
+	    {
+	        assembledList.At(a)->data->tileInfo[assembledList.At(a)->data->tilesAssemble].tileMapPosition = { x, y };
+		assembledList.At(a)->data->tileInfo[assembledList.At(a)->data->tilesAssemble].tileWorldPosition = pos;
+		assembledList.At(a)->data->tileInfo[assembledList.At(a)->data->tilesAssemble].rectangle = rec;
+		assembledList.At(a)->data->tileInfo[assembledList.At(a)->data->tilesAssemble].tileset = tileset;
+		assembledList.At(a)->data->tilesAssemble++;
+		done = true;
+		break;
+	    }
+	}
+	if (done) break;
+    }
+}
+else
+{
+    assemble = new Assemble;
+    assemble->tileInfo[0].tileMapPosition = { x, y };
+    assemble->tileInfo[0].tileWorldPosition = pos;
+    assemble->tileInfo[0].rectangle = rec;
+    assemble->tileInfo[0].tileset = tileset;
+    assemble->tilesAssemble++;
+    assembledList.Add(assemble);
+}
+```
 
+### The Sorting Starts
+
+First, organize the entities by their position in the Y axis so, when drawing them, the entities will render in the correct order:
+
+```markdown
+ListItem<Entity*>* list = entities.start;
+bool swapped = true;
+while (swapped)
+{
+    swapped = false;
+    while (list != NULL && list->next != NULL)
+    {
+    	if (list->data->position.y < list->next->data->position.y)
+	{
+	    SWAP(list->data, list->next->data);
+	    swapped = true;
+	}
+	
+	list = list->next;
+    }
+}
+```
+
+Create a new ListItem<Entity> to copy the previous list sorted.
+  
+  ```markdown
+The list sorted is inverted, so when the copy is used it must be rendered backwards (x->prev)
+```
+To get the dimensions of the assemble, we go for each assemble created getting its dimensions.
+  
+   ```markdown
+for (int l = 0; l < assembledList.Count(); l++)
+{
+    int maxX = assembledList.At(l)->data->tileInfo[0].tileWorldPosition.x;
+    int minX = assembledList.At(l)->data->tileInfo[0].tileWorldPosition.x;
+    int maxY = assembledList.At(l)->data->tileInfo[0].tileWorldPosition.y;
+    int minY = assembledList.At(l)->data->tileInfo[0].tileWorldPosition.y;
+    
+    for (int a = 0; a < assembledList.At(l)->data->tilesAssemble; a++)
+    {
+    	if (maxX < assembledList.At(l)->data->tileInfo[a].tileWorldPosition.x + map->data.tileWidth) 
+	    maxX = assembledList.At(l)->data->tileInfo[a].tileWorldPosition.x + map->data.tileWidth;
+	if (minX > assembledList.At(l)->data->tileInfo[a].tileWorldPosition.x)
+	    minX = assembledList.At(l)->data->tileInfo[a].tileWorldPosition.x;
+	if (maxY < assembledList.At(l)->data->tileInfo[a].tileWorldPosition.y + map->data.tileHeight)
+	    maxY = assembledList.At(l)->data->tileInfo[a].tileWorldPosition.y + map->data.tileHeight;
+	if (minY > assembledList.At(l)->data->tileInfo[a].tileWorldPosition.y)
+	    minY = assembledList.At(l)->data->tileInfo[a].tileWorldPosition.y;
+    }
+}
+```
+  
+  
+  Using the previous Part generate all entities that are under an assemble.
+  
+  
+  ```markdown
+sorted = list;
+while (sorted != NULL)
+{
+   if (sorted->data->position.x + sorted->data->width >= minX && sorted->data->position.x <= maxX &&
+       sorted->data->position.y + sorted->data->height >= minY && sorted->data->position.y <= maxY &&
+       sorted->data->renderable == true)
+   {
+   	sorted->data->Draw();
+	sorted->data->renderable = false;
+   }
+   sorted = sorted->prev;
+}
+```
+  
+  Draw every assemble created, then delete them and clear the list to avoid memory leaks.
+  
+  ```markdown
+for (int l = 0; l < assembledList.Count(); l++)
+{
+    for (int a = 0; a < assembledList.At(l)->data->tilesAssemble; a++)
+    {
+    	render->DrawTexture(assembledList.At(l)->data->tileInfo[a].tileset->texture,
+	    assembledList.At(l)->data->tileInfo[a].tileWorldPosition.x + assembledList.At(l)->data->tileInfo[a].tileset->offsetX,
+	    assembledList.At(l)->data->tileInfo[a].tileWorldPosition.y + assembledList.At(l)->data->tileInfo[a].tileset->offsetY,
+	    &assembledList.At(l)->data->tileInfo[a].rectangle);
+    }
+    delete assembledList.At(l)->data;
+    assembledList.At(l)->data = nullptr;
+}
+assembledList.Clear();
+}
+```
+  
+  
+  Draw the rest of the entities that have not been rendered.
+  
+ ```markdown
+sorted = list;
+while (sorted != NULL)
+{
+    if (sorted->data->renderable == true)
+	    sorted->data->Draw();
+	    
+    sorted->data->renderable = true;
+    sorted = sorted->prev;
+}
+```
+  
+  
+### Camera Culling
+  Implement the camera culling. If any tile is not in the camera, will not be calculated and drawed.
+  
+  ```markdown
+for (int y = 0; y < map->data.height; ++y)
+{
+    for (int x = 0; x < map->data.width; ++x)
+    {
+        iPoint pos = map->MapToWorld(x, y);
+	
+	if (pos.x + map->data.tileWidth > -render->camera.x && pos.x < -render->camera.x + render->camera.w &&
+	    pos.y + map->data.tileWidth > -render->camera.y && pos.y < -render->camera.y + render->camera.h)
+	{}
+    }
+}
+if (list->data->position.x + list->data->width > -render->camera.x && 
+    list->data->position.x < -render->camera.x + render->camera.w &&
+    list->data->position.y + list->data->height > -render->camera.y && 
+    list->data->position.y < -render->camera.y + render->camera.h)
+{}
+```
+  
+  
+  
 ### Documentation
 
 References from Github Presentations:
